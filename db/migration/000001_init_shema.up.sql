@@ -1,147 +1,163 @@
-CREATE TABLE "roles" (
-  "id" integer PRIMARY KEY,
-  "role_name" varchar NOT NULL
-);
+CREATE TABLE
+  "roles" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "role_name" varchar NOT NULL
+  );
 
-CREATE TABLE "roles_permissions" (
-  "role_id" integer NOT NULL,
-  "permission_id" integer NOT NULL
-);
+CREATE TABLE
+  "roles_permissions" (
+    "role_id" integer NOT NULL,
+    "permission_id" integer NOT NULL
+  );
 
-CREATE TABLE "permissions" (
-  "id" integer PRIMARY KEY,
-  "name" varchar NOT NULL
-);
+CREATE TABLE
+  "permissions" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "name" varchar NOT NULL
+  );
 
-CREATE TABLE "auths" (
-  "id" integer PRIMARY KEY,
-  "user_id" integer UNIQUE NOT NULL,
-  "username" varchar UNIQUE NOT NULL,
-  "password" varchar NOT NULL
-);
+CREATE TABLE
+  "auths" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "user_id" integer UNIQUE NOT NULL,
+    "username" varchar UNIQUE NOT NULL,
+    "password" varchar NOT NULL
+  );
 
-CREATE TABLE "users" (
-  "id" integer PRIMARY KEY,
-  "store_id" integer NOT NULL,
-  "role_id" integer NOT NULL,
-  "email" varchar,
-  "phone_number" varchar NOT NULL,
-  "name" varchar NOT NULL,
-  "is_active" boolean DEFAULT true,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "users" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "store_id" integer NOT NULL,
+    "role_id" integer NOT NULL,
+    "email" varchar,
+    "phone_number" varchar NOT NULL,
+    "name" varchar NOT NULL,
+    "is_active" boolean DEFAULT true,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "stores" (
-  "id" integer PRIMARY KEY,
-  "store_acces_id" integer NOT NULL,
-  "name" varchar NOT NULL,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "stores" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "store_acces_id" integer NOT NULL,
+    "name" varchar NOT NULL,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "stores_access" (
-  "id" integer PRIMARY KEY,
-  "name" varchar NOT NULL
-);
+CREATE TABLE
+  "stores_access" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "name" varchar NOT NULL
+  );
 
-CREATE TABLE "menus" (
-  "id" integer PRIMARY KEY,
-  "store_id" integer NOT NULL,
-  "name" varchar NOT NULL,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "menus" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "store_id" integer NOT NULL,
+    "name" varchar NOT NULL,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "items" (
-  "id" integer PRIMARY KEY,
-  "menu_id" integer NOT NULL,
-  "name" varchar NOT NULL,
-  "price" integer NOT NULL,
-  "category" varchar,
-  "is_active" boolean DEFAULT true,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "items" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "menu_id" integer NOT NULL,
+    "name" varchar NOT NULL,
+    "price" integer NOT NULL,
+    "category" varchar,
+    "is_active" boolean DEFAULT true,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "store_tables" (
-  "id" integer PRIMARY KEY,
-  "store_id" integer NOT NULL,
-  "table_number" varchar NOT NULL,
-  "qr_code" varchar UNIQUE NOT NULL,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "store_tables" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "store_id" integer NOT NULL,
+    "table_number" varchar NOT NULL,
+    "qr_code" varchar UNIQUE NOT NULL,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "carts" (
-  "id" integer PRIMARY KEY,
-  "user_id" integer NOT NULL,
-  "store_id" integer NOT NULL,
-  "table_id" integer NOT NULL,
-  "total_cost" integer,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "carts" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "user_id" integer NOT NULL,
+    "store_id" integer NOT NULL,
+    "table_id" integer NOT NULL,
+    "total_cost" integer,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "carts_items" (
-  "id" integer PRIMARY KEY,
-  "cart_id" integer NOT NULL,
-  "item_id" integer NOT NULL,
-  "quantity" integer NOT NULL,
-  "price" integer NOT NULL
-);
+CREATE TABLE
+  "carts_items" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "cart_id" integer NOT NULL,
+    "item_id" integer NOT NULL,
+    "quantity" integer NOT NULL,
+    "price" integer NOT NULL
+  );
 
-CREATE TABLE "payments" (
-  "id" integer PRIMARY KEY,
-  "cart_id" integer NOT NULL,
-  "method" varchar NOT NULL,
-  "midtrans_id" varchar,
-  "gross_amount" numeric(12,2) NOT NULL,
-  "payment_method" varchar,
-  "bank" varchar,
-  "payment_receipt" varchar,
-  "status" varchar,
-  "invoice" varchar,
-  "midtrans_data" jsonb,
-  "paid_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "payments" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "cart_id" integer NOT NULL,
+    "method" varchar NOT NULL,
+    "midtrans_id" varchar,
+    "gross_amount" numeric(12, 2) NOT NULL,
+    "payment_method" varchar,
+    "bank" varchar,
+    "payment_receipt" varchar,
+    "status" varchar,
+    "invoice" varchar,
+    "midtrans_data" jsonb,
+    "paid_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "orders" (
-  "id" integer PRIMARY KEY,
-  "user_id" integer NOT NULL,
-  "payment_id" integer UNIQUE NOT NULL,
-  "store_id" integer NOT NULL,
-  "status" varchar,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "orders" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "user_id" integer NOT NULL,
+    "payment_id" integer UNIQUE NOT NULL,
+    "store_id" integer NOT NULL,
+    "status" varchar,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "transactions" (
-  "id" integer PRIMARY KEY,
-  "store_id" integer NOT NULL,
-  "order_id" integer NOT NULL,
-  "income" integer NOT NULL,
-  "detail" JSON,
-  "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "transactions" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "store_id" integer NOT NULL,
+    "order_id" integer NOT NULL,
+    "income" integer NOT NULL,
+    "detail" JSON,
+    "created_at" timestamptz NOT NULL DEFAULT (now ()),
+    "updated_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
-CREATE TABLE "audit_logs" (
-  "id" integer PRIMARY KEY,
-  "user_id" integer NOT NULL,
-  "role_id" integer NOT NULL,
-  "permission_id" integer NOT NULL,
-  "store_id" integer NOT NULL,
-  "old_data" JSON,
-  "new_data" JSON,
-  "title" varchar,
-  "description" varchar,
-  "action" varchar,
-  "ip_address" VARCHAR,
-  "user_access_from" VARCHAR,
-  "status" varchar,
-  "created_at" timestamptz NOT NULL DEFAULT (now())
-);
+CREATE TABLE
+  "audit_logs" (
+    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "user_id" integer NOT NULL,
+    "role_id" integer NOT NULL,
+    "permission_id" integer NOT NULL,
+    "store_id" integer NOT NULL,
+    "old_data" JSON,
+    "new_data" JSON,
+    "title" varchar,
+    "description" varchar,
+    "action" varchar,
+    "ip_address" VARCHAR,
+    "user_access_from" VARCHAR,
+    "status" varchar,
+    "created_at" timestamptz NOT NULL DEFAULT (now ())
+  );
 
 CREATE UNIQUE INDEX ON "roles_permissions" ("role_id", "permission_id");
 
@@ -149,19 +165,19 @@ COMMENT ON COLUMN "roles"."role_name" IS 'e.g Super Admin , owner, cashier, cust
 
 COMMENT ON COLUMN "permissions"."name" IS '(e.g. "create_order", "manage_users", "view_reports", "change_table_number")';
 
-COMMENT ON COLUMN "users"."role_id" IS '// 0 / 1 / 2 / 3 /  4';
+COMMENT ON COLUMN "users"."role_id" IS '// 0 / 1 / 2 / 3 / 4';
 
 COMMENT ON COLUMN "users"."name" IS 'nama orang';
 
 COMMENT ON COLUMN "users"."is_active" IS 'account status';
 
-COMMENT ON COLUMN "stores"."store_acces_id" IS '0 no acces  , 1 menu qr  ';
+COMMENT ON COLUMN "stores"."store_acces_id" IS '0 no acces , 1 menu qr ';
 
 COMMENT ON COLUMN "stores"."name" IS 'nama toko';
 
 COMMENT ON COLUMN "stores_access"."name" IS 'meja_qr , kasir management ';
 
-COMMENT ON COLUMN "items"."category" IS 'snack ,  makanan , minuman';
+COMMENT ON COLUMN "items"."category" IS 'snack , makanan , minuman';
 
 COMMENT ON COLUMN "items"."is_active" IS 'stock ada = true , stock kosong = false';
 
@@ -193,7 +209,7 @@ COMMENT ON COLUMN "payments"."invoice" IS 'untuk struk';
 
 COMMENT ON COLUMN "orders"."id" IS 'orderan yang sudah di bayar';
 
-COMMENT ON COLUMN "orders"."status" IS 'in_procces (lagi dibuat),canceled (makanan di batalkan), done (sudah di antar ke meja),  (status pesanan)';
+COMMENT ON COLUMN "orders"."status" IS 'in_procces (lagi dibuat),canceled (makanan di batalkan), done (sudah di antar ke meja), (status pesanan)';
 
 COMMENT ON COLUMN "transactions"."id" IS 'catatan untuk database toko berapa pemasukan yang berhasil di proses , kalau status order di cancel maka hapus dari transactions';
 

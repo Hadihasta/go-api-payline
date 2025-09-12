@@ -1,3 +1,4 @@
+# by default version 2 untuk lebih memudahkan pakai version 1 dulu saja
 version: "1"
 packages:
   - name: "db"
