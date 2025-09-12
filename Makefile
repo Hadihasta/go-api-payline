@@ -14,5 +14,7 @@ migrateup:
 
 migratedown: 
 	migrate -path db/migration -database "postgresql://postgres:secret@localhost:5432/payline_v1?sslmode=disable" -verbose down
+sqlc: 
+	sqlc generate
 
-.PHONY:postgres createdb dropdb migrateup migratedown
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc

@@ -1,6 +1,6 @@
 CREATE TABLE "roles" (
   "id" integer PRIMARY KEY,
-  "role" varchar NOT NULL
+  "role_name" varchar NOT NULL
 );
 
 CREATE TABLE "roles_permissions" (
@@ -145,7 +145,7 @@ CREATE TABLE "audit_logs" (
 
 CREATE UNIQUE INDEX ON "roles_permissions" ("role_id", "permission_id");
 
-COMMENT ON COLUMN "roles"."role" IS 'e.g Super Admin , owner, cashier, customer';
+COMMENT ON COLUMN "roles"."role_name" IS 'e.g Super Admin , owner, cashier, customer';
 
 COMMENT ON COLUMN "permissions"."name" IS '(e.g. "create_order", "manage_users", "view_reports", "change_table_number")';
 
