@@ -70,7 +70,7 @@ type Items struct {
 	MenuID int32  `json:"menu_id"`
 	Name   string `json:"name"`
 	Price  int32  `json:"price"`
-	// snack ,  makanan , minuman
+	// snack , makanan , minuman
 	Category sql.NullString `json:"category"`
 	// stock ada = true , stock kosong = false
 	IsActive  sql.NullBool `json:"is_active"`
@@ -92,7 +92,7 @@ type Orders struct {
 	UserID    int32 `json:"user_id"`
 	PaymentID int32 `json:"payment_id"`
 	StoreID   int32 `json:"store_id"`
-	// in_procces (lagi dibuat),canceled (makanan di batalkan), done (sudah di antar ke meja),  (status pesanan)
+	// in_procces (lagi dibuat),canceled (makanan di batalkan), done (sudah di antar ke meja), (status pesanan)
 	Status    sql.NullString `json:"status"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -149,7 +149,7 @@ type StoreTables struct {
 
 type Stores struct {
 	ID int32 `json:"id"`
-	// 0 no acces  , 1 menu qr
+	// 0 no acces , 1 menu qr
 	StoreAccesID int32 `json:"store_acces_id"`
 	// nama toko
 	Name      string    `json:"name"`
@@ -178,7 +178,7 @@ type Transactions struct {
 type Users struct {
 	ID      int32 `json:"id"`
 	StoreID int32 `json:"store_id"`
-	// // 0 / 1 / 2 / 3 /  4
+	// // 0 / 1 / 2 / 3 / 4
 	RoleID      int32          `json:"role_id"`
 	Email       sql.NullString `json:"email"`
 	PhoneNumber string         `json:"phone_number"`

@@ -86,13 +86,18 @@ func (q *Queries) ListRoles(ctx context.Context, arg ListRolesParams) ([]Roles, 
 
 const updateRoles = `-- name: UpdateRoles :one
 UPDATE roles
-  set role_name = $1
+  set role_name = $2
 WHERE id = $1
 RETURNING id, role_name
 `
 
-func (q *Queries) UpdateRoles(ctx context.Context, roleName string) (Roles, error) {
-	row := q.db.QueryRowContext(ctx, updateRoles, roleName)
+type UpdateRolesParams struct {
+	ID       int32  `json:"id"`
+	RoleName string `json:"role_name"`
+}
+
+func (q *Queries) UpdateRoles(ctx context.Context, arg UpdateRolesParams) (Roles, error) {
+	row := q.db.QueryRowContext(ctx, updateRoles, arg.ID, arg.RoleName)
 	var i Roles
 	err := row.Scan(&i.ID, &i.RoleName)
 	return i, err

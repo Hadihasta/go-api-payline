@@ -20,9 +20,9 @@ OFFSET $2;
 
 -- name: UpdateRoles :one
 UPDATE roles
-  set role_name = $1
+  set role_name = $2
 WHERE id = $1
-RETURNING *;
+RETURNING id, role_name;
 
 
 -- name: DeleteRoles :exec
