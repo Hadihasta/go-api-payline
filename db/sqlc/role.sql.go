@@ -67,7 +67,7 @@ func (q *Queries) ListRoles(ctx context.Context, arg ListRolesParams) ([]Roles, 
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Roles
+	items := []Roles{}
 	for rows.Next() {
 		var i Roles
 		if err := rows.Scan(&i.ID, &i.RoleName); err != nil {

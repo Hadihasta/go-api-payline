@@ -22,4 +22,6 @@ server:
 	go run main.go
 resetdb: 
 	dropdb createdb migrateup
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc server
+test: 
+	go test -v -cover ./db/sqlc/
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc server resetdb test
