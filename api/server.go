@@ -18,6 +18,8 @@ func NewServer(system *db.Queries) *Server {
 
 
 	router.POST("/role",server.createRoles)
+	router.GET("/role/:id",server.GetRoles)
+	router.GET("/role",server.ListRoles)
 
 
 	// add routes to router

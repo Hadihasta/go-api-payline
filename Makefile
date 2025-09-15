@@ -1,5 +1,7 @@
 # this folder for simplify runing docker on local on any device 
 # run with make postgres make createdb make dropdb
+# !!! note command" ini hanya bisa di jalankan di wsl / linux terminal karena base tool make hanya bisa di instal bia apt
+# jika ingin run di gitbash terminal scoop  atau pacman agar bisa di runing di gitbash 
 postgres:
 	docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=secret -d postgres:12-alpine
 
@@ -18,5 +20,6 @@ sqlc:
 	sqlc generate
 server:
 	go run main.go
-
+resetdb: 
+	dropdb createdb migrateup
 .PHONY:postgres createdb dropdb migrateup migratedown sqlc server

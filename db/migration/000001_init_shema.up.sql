@@ -1,165 +1,175 @@
-CREATE TABLE
-  "roles" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "role_name" varchar NOT NULL
-  );
+CREATE TABLE "roles" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "role_name" varchar NOT NULL
+);
 
-CREATE TABLE
-  "roles_permissions" (
-    "role_id" integer NOT NULL,
-    "permission_id" integer NOT NULL
-  );
+CREATE TABLE "roles_permissions" (
+  "role_id" bigint NOT NULL,
+  "permission_id" bigint NOT NULL
+);
 
-CREATE TABLE
-  "permissions" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "name" varchar NOT NULL
-  );
+CREATE TABLE "permissions" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "name" varchar NOT NULL
+);
 
-CREATE TABLE
-  "auths" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "user_id" integer UNIQUE NOT NULL,
-    "username" varchar UNIQUE NOT NULL,
-    "password" varchar NOT NULL
-  );
+CREATE TABLE "auths" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "user_id" bigint UNIQUE NOT NULL,
+  "username" varchar UNIQUE NOT NULL,
+  "password" varchar NOT NULL
+);
 
-CREATE TABLE
-  "users" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "store_id" integer NOT NULL,
-    "role_id" integer NOT NULL,
-    "email" varchar,
-    "phone_number" varchar NOT NULL,
-    "name" varchar NOT NULL,
-    "is_active" boolean DEFAULT true,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "users" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "store_id" bigint NOT NULL,
+  "role_id" bigint NOT NULL,
+  "email" varchar,
+  "phone_number" varchar NOT NULL,
+  "name" varchar NOT NULL,
+  "is_active" boolean DEFAULT true,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "stores" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "store_acces_id" integer NOT NULL,
-    "name" varchar NOT NULL,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "stores" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "store_acces_id" bigint NOT NULL,
+  "name" varchar NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "stores_access" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "name" varchar NOT NULL
-  );
+CREATE TABLE "stores_access" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "name" varchar NOT NULL
+);
 
-CREATE TABLE
-  "menus" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "store_id" integer NOT NULL,
-    "name" varchar NOT NULL,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "menus" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "store_id" bigint NOT NULL,
+  "name" varchar NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "items" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "menu_id" integer NOT NULL,
-    "name" varchar NOT NULL,
-    "price" integer NOT NULL,
-    "category" varchar,
-    "is_active" boolean DEFAULT true,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "items" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "menu_id" bigint NOT NULL,
+  "name" varchar NOT NULL,
+  "price" bigint NOT NULL,
+  "category" varchar,
+  "is_active" boolean DEFAULT true,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "store_tables" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "store_id" integer NOT NULL,
-    "table_number" varchar NOT NULL,
-    "qr_code" varchar UNIQUE NOT NULL,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "store_tables" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "store_id" bigint NOT NULL,
+  "table_number" varchar NOT NULL,
+  "qr_code" varchar UNIQUE NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "carts" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "user_id" integer NOT NULL,
-    "store_id" integer NOT NULL,
-    "table_id" integer NOT NULL,
-    "total_cost" integer,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "carts" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "user_id" bigint NOT NULL,
+  "store_id" bigint NOT NULL,
+  "table_id" bigint NOT NULL,
+  "total_cost" bigint,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "carts_items" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "cart_id" integer NOT NULL,
-    "item_id" integer NOT NULL,
-    "quantity" integer NOT NULL,
-    "price" integer NOT NULL
-  );
+CREATE TABLE "carts_items" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "cart_id" bigint NOT NULL,
+  "item_id" bigint NOT NULL,
+  "quantity" bigint NOT NULL,
+  "price" bigint NOT NULL
+);
 
-CREATE TABLE
-  "payments" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "cart_id" integer NOT NULL,
-    "method" varchar NOT NULL,
-    "midtrans_id" varchar,
-    "gross_amount" numeric(12, 2) NOT NULL,
-    "payment_method" varchar,
-    "bank" varchar,
-    "payment_receipt" varchar,
-    "status" varchar,
-    "invoice" varchar,
-    "midtrans_data" jsonb,
-    "paid_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "payments" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "cart_id" bigint NOT NULL,
+  "method" varchar NOT NULL,
+  "midtrans_id" varchar,
+  "gross_amount" numeric(12, 2) NOT NULL,
+  "payment_method" varchar,
+  "bank" varchar,
+  "payment_receipt" varchar,
+  "status" varchar,
+  "invoice" varchar,
+  "midtrans_data" jsonb,
+  "paid_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "orders" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "user_id" integer NOT NULL,
-    "payment_id" integer UNIQUE NOT NULL,
-    "store_id" integer NOT NULL,
-    "status" varchar,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "orders" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "user_id" bigint NOT NULL,
+  "payment_id" bigint UNIQUE NOT NULL,
+  "store_id" bigint NOT NULL,
+  "status" varchar,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "transactions" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "store_id" integer NOT NULL,
-    "order_id" integer NOT NULL,
-    "income" integer NOT NULL,
-    "detail" JSON,
-    "created_at" timestamptz NOT NULL DEFAULT (now ()),
-    "updated_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "transactions" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "store_id" bigint NOT NULL,
+  "order_id" bigint NOT NULL,
+  "income" bigint NOT NULL,
+  "detail" JSON,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
+);
 
-CREATE TABLE
-  "audit_logs" (
-    "id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "user_id" integer NOT NULL,
-    "role_id" integer NOT NULL,
-    "permission_id" integer NOT NULL,
-    "store_id" integer NOT NULL,
-    "old_data" JSON,
-    "new_data" JSON,
-    "title" varchar,
-    "description" varchar,
-    "action" varchar,
-    "ip_address" VARCHAR,
-    "user_access_from" VARCHAR,
-    "status" varchar,
-    "created_at" timestamptz NOT NULL DEFAULT (now ())
-  );
+CREATE TABLE "audit_logs" (
+  "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "user_id" bigint NOT NULL,
+  "role_id" bigint NOT NULL,
+  "permission_id" bigint NOT NULL,
+  "store_id" bigint NOT NULL,
+  "old_data" JSON,
+  "new_data" JSON,
+  "title" varchar,
+  "description" varchar,
+  "action" varchar,
+  "ip_address" VARCHAR,
+  "user_access_from" VARCHAR,
+  "status" varchar,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
+);
 
 CREATE UNIQUE INDEX ON "roles_permissions" ("role_id", "permission_id");
+
+-- FOREIGN KEYS
+ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
+ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
+ALTER TABLE "auths" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "users" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
+ALTER TABLE "stores" ADD FOREIGN KEY ("store_acces_id") REFERENCES "stores_access" ("id");
+ALTER TABLE "menus" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "items" ADD FOREIGN KEY ("menu_id") REFERENCES "menus" ("id");
+ALTER TABLE "store_tables" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "carts" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "carts" ADD FOREIGN KEY ("table_id") REFERENCES "store_tables" ("id");
+ALTER TABLE "carts_items" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
+ALTER TABLE "carts_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+ALTER TABLE "payments" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("payment_id") REFERENCES "payments" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "transactions" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "transactions" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
+ALTER TABLE "audit_logs" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "audit_logs" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
+ALTER TABLE "audit_logs" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
+ALTER TABLE "audit_logs" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
 
 COMMENT ON COLUMN "roles"."role_name" IS 'e.g Super Admin , owner, cashier, customer';
 
@@ -228,51 +238,3 @@ COMMENT ON COLUMN "audit_logs"."ip_address" IS '-- IPv4/IPv6';
 COMMENT ON COLUMN "audit_logs"."user_access_from" IS '-- device/browser';
 
 COMMENT ON COLUMN "audit_logs"."status" IS 'SUCCESS, FAILED.';
-
-ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-
-ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
-
-ALTER TABLE "auths" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "users" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-
-ALTER TABLE "stores" ADD FOREIGN KEY ("store_acces_id") REFERENCES "stores_access" ("id");
-
-ALTER TABLE "menus" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "items" ADD FOREIGN KEY ("menu_id") REFERENCES "menus" ("id");
-
-ALTER TABLE "store_tables" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "carts" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "carts" ADD FOREIGN KEY ("table_id") REFERENCES "store_tables" ("id");
-
-ALTER TABLE "carts_items" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
-
-ALTER TABLE "carts_items" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
-
-ALTER TABLE "payments" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
-
-ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "orders" ADD FOREIGN KEY ("payment_id") REFERENCES "payments" ("id");
-
-ALTER TABLE "orders" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "transactions" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
-
-ALTER TABLE "transactions" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
-
-ALTER TABLE "audit_logs" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "audit_logs" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-
-ALTER TABLE "audit_logs" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
-
-ALTER TABLE "audit_logs" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");

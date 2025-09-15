@@ -12,11 +12,11 @@ import (
 )
 
 type AuditLogs struct {
-	ID           int32 `json:"id"`
-	UserID       int32 `json:"user_id"`
-	RoleID       int32 `json:"role_id"`
-	PermissionID int32 `json:"permission_id"`
-	StoreID      int32 `json:"store_id"`
+	ID           int64 `json:"id"`
+	UserID       int64 `json:"user_id"`
+	RoleID       int64 `json:"role_id"`
+	PermissionID int64 `json:"permission_id"`
+	StoreID      int64 `json:"store_id"`
 	// -- data sebelum diubah
 	OldData pqtype.NullRawMessage `json:"old_data"`
 	// -- data sesudah diubah
@@ -36,40 +36,40 @@ type AuditLogs struct {
 }
 
 type Auths struct {
-	ID       int32  `json:"id"`
-	UserID   int32  `json:"user_id"`
+	ID       int64  `json:"id"`
+	UserID   int64  `json:"user_id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
 type Carts struct {
 	// orderan yang sudah dipesan namun belum di bayar
-	ID     int32 `json:"id"`
-	UserID int32 `json:"user_id"`
+	ID     int64 `json:"id"`
+	UserID int64 `json:"user_id"`
 	// required kalo customer
-	StoreID int32 `json:"store_id"`
+	StoreID int64 `json:"store_id"`
 	// required kalo customer
-	TableID int32 `json:"table_id"`
+	TableID int64 `json:"table_id"`
 	// jumlah quantity x price
-	TotalCost sql.NullInt32 `json:"total_cost"`
+	TotalCost sql.NullInt64 `json:"total_cost"`
 	CreatedAt time.Time     `json:"created_at"`
 	UpdatedAt time.Time     `json:"updated_at"`
 }
 
 type CartsItems struct {
-	ID       int32 `json:"id"`
-	CartID   int32 `json:"cart_id"`
-	ItemID   int32 `json:"item_id"`
-	Quantity int32 `json:"quantity"`
+	ID       int64 `json:"id"`
+	CartID   int64 `json:"cart_id"`
+	ItemID   int64 `json:"item_id"`
+	Quantity int64 `json:"quantity"`
 	// snapshot harga saat order
-	Price int32 `json:"price"`
+	Price int64 `json:"price"`
 }
 
 type Items struct {
-	ID     int32  `json:"id"`
-	MenuID int32  `json:"menu_id"`
+	ID     int64  `json:"id"`
+	MenuID int64  `json:"menu_id"`
 	Name   string `json:"name"`
-	Price  int32  `json:"price"`
+	Price  int64  `json:"price"`
 	// snack , makanan , minuman
 	Category sql.NullString `json:"category"`
 	// stock ada = true , stock kosong = false
@@ -79,8 +79,8 @@ type Items struct {
 }
 
 type Menus struct {
-	ID        int32     `json:"id"`
-	StoreID   int32     `json:"store_id"`
+	ID        int64     `json:"id"`
+	StoreID   int64     `json:"store_id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -88,10 +88,10 @@ type Menus struct {
 
 type Orders struct {
 	// orderan yang sudah di bayar
-	ID        int32 `json:"id"`
-	UserID    int32 `json:"user_id"`
-	PaymentID int32 `json:"payment_id"`
-	StoreID   int32 `json:"store_id"`
+	ID        int64 `json:"id"`
+	UserID    int64 `json:"user_id"`
+	PaymentID int64 `json:"payment_id"`
+	StoreID   int64 `json:"store_id"`
 	// in_procces (lagi dibuat),canceled (makanan di batalkan), done (sudah di antar ke meja), (status pesanan)
 	Status    sql.NullString `json:"status"`
 	CreatedAt time.Time      `json:"created_at"`
@@ -99,8 +99,8 @@ type Orders struct {
 }
 
 type Payments struct {
-	ID     int32 `json:"id"`
-	CartID int32 `json:"cart_id"`
+	ID     int64 `json:"id"`
+	CartID int64 `json:"cart_id"`
 	// bayar dengan qr_midtrans atau di cashier
 	Method string `json:"method"`
 	// order id (midtrans)
@@ -122,25 +122,25 @@ type Payments struct {
 }
 
 type Permissions struct {
-	ID int32 `json:"id"`
+	ID int64 `json:"id"`
 	// (e.g. "create_order", "manage_users", "view_reports", "change_table_number")
 	Name string `json:"name"`
 }
 
 type Roles struct {
-	ID int32 `json:"id"`
+	ID int64 `json:"id"`
 	// e.g Super Admin , owner, cashier, customer
 	RoleName string `json:"role_name"`
 }
 
 type RolesPermissions struct {
-	RoleID       int32 `json:"role_id"`
-	PermissionID int32 `json:"permission_id"`
+	RoleID       int64 `json:"role_id"`
+	PermissionID int64 `json:"permission_id"`
 }
 
 type StoreTables struct {
-	ID          int32     `json:"id"`
-	StoreID     int32     `json:"store_id"`
+	ID          int64     `json:"id"`
+	StoreID     int64     `json:"store_id"`
 	TableNumber string    `json:"table_number"`
 	QrCode      string    `json:"qr_code"`
 	CreatedAt   time.Time `json:"created_at"`
@@ -148,9 +148,9 @@ type StoreTables struct {
 }
 
 type Stores struct {
-	ID int32 `json:"id"`
+	ID int64 `json:"id"`
 	// 0 no acces , 1 menu qr
-	StoreAccesID int32 `json:"store_acces_id"`
+	StoreAccesID int64 `json:"store_acces_id"`
 	// nama toko
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
@@ -158,17 +158,17 @@ type Stores struct {
 }
 
 type StoresAccess struct {
-	ID int32 `json:"id"`
+	ID int64 `json:"id"`
 	// meja_qr , kasir management
 	Name string `json:"name"`
 }
 
 type Transactions struct {
 	// catatan untuk database toko berapa pemasukan yang berhasil di proses , kalau status order di cancel maka hapus dari transactions
-	ID      int32 `json:"id"`
-	StoreID int32 `json:"store_id"`
-	OrderID int32 `json:"order_id"`
-	Income  int32 `json:"income"`
+	ID      int64 `json:"id"`
+	StoreID int64 `json:"store_id"`
+	OrderID int64 `json:"order_id"`
+	Income  int64 `json:"income"`
 	// ambil dari order id --> cart id --> cart_items apa aja
 	Detail    pqtype.NullRawMessage `json:"detail"`
 	CreatedAt time.Time             `json:"created_at"`
@@ -176,10 +176,10 @@ type Transactions struct {
 }
 
 type Users struct {
-	ID      int32 `json:"id"`
-	StoreID int32 `json:"store_id"`
+	ID      int64 `json:"id"`
+	StoreID int64 `json:"store_id"`
 	// // 0 / 1 / 2 / 3 / 4
-	RoleID      int32          `json:"role_id"`
+	RoleID      int64          `json:"role_id"`
 	Email       sql.NullString `json:"email"`
 	PhoneNumber string         `json:"phone_number"`
 	// nama orang

@@ -32,7 +32,7 @@ DELETE FROM roles
 WHERE id = $1
 `
 
-func (q *Queries) DeleteRoles(ctx context.Context, id int32) error {
+func (q *Queries) DeleteRoles(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteRoles, id)
 	return err
 }
@@ -42,7 +42,7 @@ SELECT id, role_name FROM roles
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetRoles(ctx context.Context, id int32) (Roles, error) {
+func (q *Queries) GetRoles(ctx context.Context, id int64) (Roles, error) {
 	row := q.db.QueryRowContext(ctx, getRoles, id)
 	var i Roles
 	err := row.Scan(&i.ID, &i.RoleName)
@@ -92,7 +92,7 @@ RETURNING id, role_name
 `
 
 type UpdateRolesParams struct {
-	ID       int32  `json:"id"`
+	ID       int64  `json:"id"`
 	RoleName string `json:"role_name"`
 }
 
