@@ -16,5 +16,7 @@ migratedown:
 	migrate -path db/migration -database "postgresql://postgres:secret@localhost:5432/payline_v1?sslmode=disable" -verbose down
 sqlc: 
 	sqlc generate
+server:
+	go run main.go
 
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc server
