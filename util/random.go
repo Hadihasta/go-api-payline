@@ -68,3 +68,10 @@ func RandomPhoneNumber() string {
 	}
 	return phone
 }
+
+// random store_access
+func RandomStoreAccess() string{ 
+	access := []string{"menu_qr ", "no_acces", "pos"}
+	n := len(access)
+	return access[rand.Intn(n)]
+}

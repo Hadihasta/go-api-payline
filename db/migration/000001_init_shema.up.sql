@@ -33,7 +33,7 @@ CREATE TABLE "users" (
 
 CREATE TABLE "stores" (
   "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  "store_acces_id" bigint NOT NULL,
+  "store_access_id" bigint NOT NULL,
   "name" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now())
@@ -156,7 +156,7 @@ ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("role_id") REFERENCES "roles" (
 ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
 ALTER TABLE "auths" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-ALTER TABLE "stores" ADD FOREIGN KEY ("store_acces_id") REFERENCES "stores_access" ("id");
+ALTER TABLE "stores" ADD FOREIGN KEY ("store_access_id") REFERENCES "stores_access" ("id");
 ALTER TABLE "users_stores" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "users_stores" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
 ALTER TABLE "menus" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
@@ -184,9 +184,9 @@ COMMENT ON COLUMN "permissions"."name" IS '(e.g. "create_order", "manage_users",
 COMMENT ON COLUMN "users"."role_id" IS '// 0 / 1 / 2 / 3 / 4';
 COMMENT ON COLUMN "users"."name" IS 'nama orang';
 COMMENT ON COLUMN "users"."is_active" IS 'account status';
-COMMENT ON COLUMN "stores"."store_acces_id" IS '0 no acces , 1 menu qr ';
+COMMENT ON COLUMN "stores"."store_access_id" IS '0 no access , 1 menu qr ';
 COMMENT ON COLUMN "stores"."name" IS 'nama toko';
-COMMENT ON COLUMN "stores_access"."name" IS 'meja_qr , kasir management / untuk acces menu apa saja yang bisa di pakai';
+COMMENT ON COLUMN "stores_access"."name" IS 'meja_qr , kasir management / untuk access menu apa saja yang bisa di pakai';
 COMMENT ON COLUMN "items"."category" IS 'snack , makanan , minuman';
 COMMENT ON COLUMN "items"."is_active" IS 'stock ada = true , stock kosong = false';
 COMMENT ON COLUMN "carts"."id" IS 'orderan yang sudah dipesan namun belum di bayar';

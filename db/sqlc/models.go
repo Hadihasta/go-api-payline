@@ -17,18 +17,18 @@ type AuditLogs struct {
 	RoleID       int64 `json:"role_id"`
 	PermissionID int64 `json:"permission_id"`
 	StoreID      int64 `json:"store_id"`
-	// -- data sebelum diubah
+	// data sebelum diubah
 	OldData pqtype.NullRawMessage `json:"old_data"`
-	// -- data sesudah diubah
+	// data sesudah diubah
 	NewData pqtype.NullRawMessage `json:"new_data"`
 	Title   sql.NullString        `json:"title"`
 	// bahasa manusia
 	Description sql.NullString `json:"description"`
 	// LOGIN, LOGOUT, CREATE, UPDATE, DELETE, PAYMENT, EXPORT.
 	Action sql.NullString `json:"action"`
-	// -- IPv4/IPv6
+	// IPv4/IPv6
 	IpAddress sql.NullString `json:"ip_address"`
-	// -- device/browser
+	// device/browser
 	UserAccessFrom sql.NullString `json:"user_access_from"`
 	// SUCCESS, FAILED.
 	Status    sql.NullString `json:"status"`
@@ -159,7 +159,7 @@ type Stores struct {
 
 type StoresAccess struct {
 	ID int64 `json:"id"`
-	// meja_qr , kasir management
+	// meja_qr , kasir management / untuk acces menu apa saja yang bisa di pakai
 	Name string `json:"name"`
 }
 
@@ -176,8 +176,7 @@ type Transactions struct {
 }
 
 type Users struct {
-	ID      int64 `json:"id"`
-	StoreID int64 `json:"store_id"`
+	ID int64 `json:"id"`
 	// // 0 / 1 / 2 / 3 / 4
 	RoleID      int64          `json:"role_id"`
 	Email       sql.NullString `json:"email"`
@@ -188,4 +187,9 @@ type Users struct {
 	IsActive  sql.NullBool `json:"is_active"`
 	CreatedAt time.Time    `json:"created_at"`
 	UpdatedAt time.Time    `json:"updated_at"`
+}
+
+type UsersStores struct {
+	UserID  int64 `json:"user_id"`
+	StoreID int64 `json:"store_id"`
 }
