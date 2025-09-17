@@ -20,8 +20,6 @@ sqlc:
 	sqlc generate
 server:
 	go run main.go
-resetdb: 
-	dropdb createdb migrateup
 test: 
 	go test -v -cover ./db/sqlc/
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc server resetdb test
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc server  test

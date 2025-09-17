@@ -1,17 +1,17 @@
 package util
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
-	"time"
 )
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
+// hanya perlu di versi golang di bawah 1.20 agar rand tidak generate 1 terus terusan
+// func init() {
+// 	rand.Seed(time.Now().UnixNano())
+// }
 
 // RandomInt Generator (generates a random integer between min and max)
 func RandomInt(min, max int64) int64 {
@@ -45,4 +45,26 @@ func RandomRole() string{
 	roles := []string{"customer", "super_admin", "owner"}
 	n := len(roles)
 	return roles[rand.Intn(n)]
+}
+
+// RandomEmail
+func RandomEmail() string{
+	return fmt.Sprint("%s@email.com", RandomString(6))
+}
+
+
+// RandomPhoneNumer
+func RandomPhoneNumber() string {
+
+	// Prefix Indonesia biasanya "08"
+	phone := "08"
+
+	// Panjang total nomor HP biasanya 10–13 digit
+	length := rand.Intn(4) + 10 // hasil: 10, 11, 12, atau 13 digit
+
+	// Generate sisa digit
+	for i := len(phone); i < length; i++ {
+		phone += fmt.Sprintf("%d", rand.Intn(10))
+	}
+	return phone
 }
