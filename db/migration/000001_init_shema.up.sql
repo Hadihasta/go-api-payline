@@ -33,20 +33,25 @@ CREATE TABLE "users" (
 
 CREATE TABLE "stores" (
   "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  "store_access_id" bigint NOT NULL,
   "name" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "users_stores" (
-  "user_id" bigint NOT NULL,
-  "store_id" bigint NOT NULL
-);
-
 CREATE TABLE "stores_access" (
   "id" bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   "name" varchar NOT NULL
+);
+
+-- Pivot table many-to-many store ↔ access
+CREATE TABLE "stores_store_access" (
+  "store_id" bigint NOT NULL,
+  "store_access_id" bigint NOT NULL
+);
+
+CREATE TABLE "users_stores" (
+  "user_id" bigint NOT NULL,
+  "store_id" bigint NOT NULL
 );
 
 CREATE TABLE "menus" (
@@ -150,15 +155,17 @@ CREATE TABLE "audit_logs" (
 -- INDEXES
 CREATE UNIQUE INDEX ON "roles_permissions" ("role_id", "permission_id");
 CREATE UNIQUE INDEX ON "users_stores" ("user_id", "store_id");
+CREATE UNIQUE INDEX ON "stores_store_access" ("store_id", "store_access_id");
 
 -- FOREIGN KEYS
 ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 ALTER TABLE "roles_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "permissions" ("id");
 ALTER TABLE "auths" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-ALTER TABLE "stores" ADD FOREIGN KEY ("store_access_id") REFERENCES "stores_access" ("id");
 ALTER TABLE "users_stores" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "users_stores" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "stores_store_access" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
+ALTER TABLE "stores_store_access" ADD FOREIGN KEY ("store_access_id") REFERENCES "stores_access" ("id");
 ALTER TABLE "menus" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
 ALTER TABLE "items" ADD FOREIGN KEY ("menu_id") REFERENCES "menus" ("id");
 ALTER TABLE "store_tables" ADD FOREIGN KEY ("store_id") REFERENCES "stores" ("id");
@@ -184,7 +191,6 @@ COMMENT ON COLUMN "permissions"."name" IS '(e.g. "create_order", "manage_users",
 COMMENT ON COLUMN "users"."role_id" IS '// 0 / 1 / 2 / 3 / 4';
 COMMENT ON COLUMN "users"."name" IS 'nama orang';
 COMMENT ON COLUMN "users"."is_active" IS 'account status';
-COMMENT ON COLUMN "stores"."store_access_id" IS '0 no access , 1 menu qr ';
 COMMENT ON COLUMN "stores"."name" IS 'nama toko';
 COMMENT ON COLUMN "stores_access"."name" IS 'meja_qr , kasir management / untuk access menu apa saja yang bisa di pakai';
 COMMENT ON COLUMN "items"."category" IS 'snack , makanan , minuman';

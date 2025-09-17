@@ -75,3 +75,10 @@ func RandomStoreAccess() string{
 	n := len(access)
 	return access[rand.Intn(n)]
 }
+
+// random store_access
+func CreateRandomStore() string{ 
+	store := []string{"cafe_kopi", "restaurant_naga", "restaurant_kopi"}
+	n := len(store)
+	return store[rand.Intn(n)]
+}
