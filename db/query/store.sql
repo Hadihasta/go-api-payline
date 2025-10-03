@@ -1,9 +1,8 @@
 -- name: CreateStore :one
 INSERT INTO stores (
-    store_access_id,
     name
 ) VALUES (
-    $1, $2
+    $1
 )
 RETURNING *;
 

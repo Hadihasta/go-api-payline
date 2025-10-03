@@ -11,25 +11,18 @@ import (
 
 const createStore = `-- name: CreateStore :one
 INSERT INTO stores (
-    store_access_id,
     name
 ) VALUES (
-    $1, $2
+    $1
 )
-RETURNING id, store_access_id, name, created_at, updated_at
+RETURNING id, name, created_at, updated_at
 `
 
-type CreateStoreParams struct {
-	StoreAccessID int64  `json:"store_access_id"`
-	Name          string `json:"name"`
-}
-
-func (q *Queries) CreateStore(ctx context.Context, arg CreateStoreParams) (Stores, error) {
-	row := q.db.QueryRowContext(ctx, createStore, arg.StoreAccessID, arg.Name)
+func (q *Queries) CreateStore(ctx context.Context, name string) (Stores, error) {
+	row := q.db.QueryRowContext(ctx, createStore, name)
 	var i Stores
 	err := row.Scan(
 		&i.ID,
-		&i.StoreAccessID,
 		&i.Name,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -38,7 +31,7 @@ func (q *Queries) CreateStore(ctx context.Context, arg CreateStoreParams) (Store
 }
 
 const getStore = `-- name: GetStore :one
-SELECT id, store_access_id, name, created_at, updated_at FROM stores
+SELECT id, name, created_at, updated_at FROM stores
 WHERE name = $1
 LIMIT 1
 `
@@ -48,7 +41,6 @@ func (q *Queries) GetStore(ctx context.Context, name string) (Stores, error) {
 	var i Stores
 	err := row.Scan(
 		&i.ID,
-		&i.StoreAccessID,
 		&i.Name,
 		&i.CreatedAt,
 		&i.UpdatedAt,

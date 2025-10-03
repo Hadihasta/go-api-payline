@@ -10,12 +10,13 @@ import (
 
 func CreateRandomStore(t *testing.T) Stores {
 
-	arg := CreateStoreParams{
-		StoreAccessID: 1,
-		Name: util.CreateRandomStore(),
-	}
-
-	store, err := testQueries.CreateStore(context.Background(), arg)
+	// kalau ada 2 argumen baru di pakai args ====> comment
+	// arg := CreateStoreParams{
+	// 	StoreAccessID: 1,
+	// 	Name: util.CreateRandomStore(),
+	// }
+	
+	store, err := testQueries.CreateStore(context.Background(), util.CreateRandomStore())
 	require.NoError(t, err)
 	require.NotEmpty(t, store)
 

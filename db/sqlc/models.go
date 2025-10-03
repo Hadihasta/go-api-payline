@@ -149,8 +149,6 @@ type StoreTables struct {
 
 type Stores struct {
 	ID int64 `json:"id"`
-	// 0 no access , 1 menu qr
-	StoreAccessID int64 `json:"store_access_id"`
 	// nama toko
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
@@ -161,6 +159,11 @@ type StoresAccess struct {
 	ID int64 `json:"id"`
 	// meja_qr , kasir management / untuk access menu apa saja yang bisa di pakai
 	Name string `json:"name"`
+}
+
+type StoresStoreAccess struct {
+	StoreID       int64 `json:"store_id"`
+	StoreAccessID int64 `json:"store_access_id"`
 }
 
 type Transactions struct {
