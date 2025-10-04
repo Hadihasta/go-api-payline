@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"testing"
 
 	"github.com/go-api-payline/util"
@@ -13,6 +12,7 @@ import (
 func CreateRandomUser(t *testing.T) Users {
 
 	arg := CreateUserParams{
+		RoleID:      util.RandomInt(1, 9),
 		Email:       sql.NullString{String: util.RandomEmail(), Valid: true},
 		PhoneNumber: util.RandomPhoneNumber(),
 		Name:        util.RandomName(),
@@ -22,7 +22,6 @@ func CreateRandomUser(t *testing.T) Users {
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
 
-	fmt.Println(user, "<<<<user", arg, "<<<< arg", t, "<<<<<<<t")
 
 	// kolom hasil generate pake PascalCase
 	require.Equal(t, arg.Email, user.Email)

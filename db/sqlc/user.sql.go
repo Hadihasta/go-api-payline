@@ -12,23 +12,30 @@ import (
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (
+  role_id,
   email,
   phone_number,
   name
 ) VALUES (
-  $1, $2, $3
+  $1, $2, $3,$4
 )
 RETURNING id, role_id, email, phone_number, name, is_active, created_at, updated_at
 `
 
 type CreateUserParams struct {
+	RoleID      int64          `json:"role_id"`
 	Email       sql.NullString `json:"email"`
 	PhoneNumber string         `json:"phone_number"`
 	Name        string         `json:"name"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (Users, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.Email, arg.PhoneNumber, arg.Name)
+	row := q.db.QueryRowContext(ctx, createUser,
+		arg.RoleID,
+		arg.Email,
+		arg.PhoneNumber,
+		arg.Name,
+	)
 	var i Users
 	err := row.Scan(
 		&i.ID,
