@@ -17,9 +17,13 @@ func NewServer(system *db.Queries) *Server {
 	router := gin.Default()
 
 
+	// roles
 	router.POST("/role",server.createRoles)
 	router.GET("/role/:id",server.GetRoles)
 	router.GET("/role",server.ListRoles)
+	// users
+	// router.GET("/users",server.createUser)
+	// router.GET("/users",server.ListUsers)
 
 
 	// add routes to router

@@ -10,7 +10,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
@@ -21,13 +20,12 @@ func main() {
 		log.Fatal("cannot connect to db ", err)
 	}
 
-queries := db.New(conn)
-server := api.NewServer(queries)
+	queries := db.New(conn)
+	server := api.NewServer(queries)
 
-
-err = server.Start(config.ServerAddress)
-if err != nil {
-	log.Fatal("cannot start server:", err)
-}
+	err = server.Start(config.ServerAddress)
+	if err != nil {
+		log.Fatal("cannot start server:", err)
+	}
 
 }

@@ -3,6 +3,7 @@ package api
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,6 +28,13 @@ func (server *Server) createRoles(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+
+	
+		log.Println("log console: ", ctx)
+		log.Println("log console: ", req)
+		fmt.Println("fmt console: ", ctx)
+		fmt.Println("fmt fmt console: ", req)
+
 	ctx.JSON(http.StatusOK, role)
 }
 
@@ -44,8 +52,10 @@ func (server *Server) GetRoles(ctx *gin.Context) {
 		return
 	}
 
+
 	role, err := server.system.GetRoles(ctx, req.ID)
 	if err != nil { 
+				fmt.Println("error console: ", role)
 		if err == sql.ErrNoRows { 
 			ctx.JSON(http.StatusNotFound, errorResponse((err)))
 			return
@@ -53,6 +63,11 @@ func (server *Server) GetRoles(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse((err)))
 			return
 	}
+
+		log.Println("log console: ", ctx)
+		log.Println("log console: ", req)
+		fmt.Println("fmt console: ", ctx)
+		fmt.Println("fmt fmt console: ", req)
 
 	ctx.JSON(http.StatusOK,role)
 }
@@ -84,5 +99,10 @@ func (server *Server) ListRoles(ctx *gin.Context) {
 			return
 	}
 
+	
+		log.Println("log console: ", ctx)
+		log.Println("log console: ", req)
+		fmt.Println("fmt console: ", ctx)
+		fmt.Println("fmt fmt console: ", req)
 	ctx.JSON(http.StatusOK,role)
 }
