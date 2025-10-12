@@ -102,7 +102,7 @@ func (server *Server) getUserByName(ctx *gin.Context) {
 		return
 	}
 
-	// Gunakan nama dari body, bukan dari URL
+	// Gunakan nama dari body
 	user, err := server.system.GetUser(ctx, req.Name)
 	if err != nil {
 		if err == sql.ErrNoRows {
