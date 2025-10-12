@@ -14,6 +14,7 @@ type Server struct {
 // create a new server and setup routing
 func NewServer(system *db.Queries) *Server {
 	server := &Server{system: system}
+	// using gin default middleware 
 	router := gin.Default()
 
 
@@ -22,7 +23,7 @@ func NewServer(system *db.Queries) *Server {
 	router.GET("/role/:id",server.GetRoles)
 	router.GET("/role",server.ListRoles)
 	// users
-	// router.GET("/users",server.createUser)
+	router.POST("/users",server.createUser)
 	// router.GET("/users",server.ListUsers)
 
 
