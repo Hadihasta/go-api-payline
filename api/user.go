@@ -66,3 +66,52 @@ func (server *Server) createUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, user)
 }
+
+
+
+// 🧠 NOTE: Handler untuk mengambil semua user (List Users)
+// ========================================================
+// Endpoint ini akan memanggil method `GetListUsers` dari sqlc (yang kamu sudah buat).
+// Tidak butuh input parameter karena kita ingin ambil semua data user dari tabel `users`.
+//
+// Flow:
+// [HTTP GET /users] -> panggil db.GetListUsers() -> kembalikan hasil dalam bentuk JSON
+func (server *Server) ListUsers(ctx *gin.Context) {
+	// menggunakan method GetListUsers yang sudah dibuat di sqlc (user.sql.go)
+	users, err := server.system.GetListUsersWithRole(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, users)
+}
+
+
+type getUserByNameRequest struct {
+	Name string `json:"name" binding:"required"`
+}
+
+func (server *Server) getUserByName(ctx *gin.Context) {
+	var req getUserByNameRequest
+
+	// Ambil data dari body JSON
+	// kalau err kosong (nil), berarti validasi sukses
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	// Gunakan nama dari body, bukan dari URL
+	user, err := server.system.GetUser(ctx, req.Name)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, user)
+}

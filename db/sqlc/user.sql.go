@@ -8,6 +8,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -48,6 +49,67 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (Users, 
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const getListUsersWithRole = `-- name: GetListUsersWithRole :many
+SELECT 
+  u.id,
+  u.role_id,
+  r.role_name,
+  u.email,
+  u.phone_number,
+  u.name,
+  u.is_active,
+  u.created_at,
+  u.updated_at
+FROM users u
+JOIN roles r ON u.role_id = r.id
+ORDER BY u.id ASC
+`
+
+type GetListUsersWithRoleRow struct {
+	ID          int64          `json:"id"`
+	RoleID      int64          `json:"role_id"`
+	RoleName    string         `json:"role_name"`
+	Email       sql.NullString `json:"email"`
+	PhoneNumber string         `json:"phone_number"`
+	Name        string         `json:"name"`
+	IsActive    sql.NullBool   `json:"is_active"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+}
+
+func (q *Queries) GetListUsersWithRole(ctx context.Context) ([]GetListUsersWithRoleRow, error) {
+	rows, err := q.db.QueryContext(ctx, getListUsersWithRole)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetListUsersWithRoleRow{}
+	for rows.Next() {
+		var i GetListUsersWithRoleRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.RoleID,
+			&i.RoleName,
+			&i.Email,
+			&i.PhoneNumber,
+			&i.Name,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getUser = `-- name: GetUser :one

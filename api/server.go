@@ -24,7 +24,8 @@ func NewServer(system *db.Queries) *Server {
 	router.GET("/role",server.ListRoles)
 	// users
 	router.POST("/users",server.createUser)
-	// router.GET("/users",server.ListUsers)
+	router.GET("/users",server.ListUsers)
+	router.POST("/userbyname",server.getUserByName)
 
 
 	// add routes to router
