@@ -1,0 +1,21 @@
+# Binaries
+bin/
+tmp/
+
+
+
+# Go build cache
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Environment
+app.env
+.env
+app.env
