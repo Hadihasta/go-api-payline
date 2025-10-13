@@ -20,15 +20,16 @@ func NewServer(system *db.Queries) *Server {
 	// allow all origins
 	router.Use(cors.Default())
 
+	api := router.Group("/api/v1")
 
 	// roles
-	router.POST("/role",server.createRoles)
-	router.GET("/role/:id",server.GetRoles)
-	router.GET("/role",server.ListRoles)
+	api.POST("/role",server.createRoles)
+	api.GET("/role/:id",server.GetRoles)
+	api.GET("/role",server.ListRoles)
 	// users
-	router.POST("/users",server.createUser)
-	router.GET("/users",server.ListUsers)
-	router.POST("/userbyname",server.getUserByName)
+	api.POST("/users",server.createUser)
+	api.GET("/users",server.ListUsers)
+	api.POST("/userbyname",server.getUserByName)
 
 
 	// add routes to router
