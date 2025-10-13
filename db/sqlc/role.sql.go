@@ -84,6 +84,34 @@ func (q *Queries) ListRoles(ctx context.Context, arg ListRolesParams) ([]Roles, 
 	return items, nil
 }
 
+const listRolesNoLimit = `-- name: ListRolesNoLimit :many
+SELECT id, role_name FROM roles
+ORDER BY id
+`
+
+func (q *Queries) ListRolesNoLimit(ctx context.Context) ([]Roles, error) {
+	rows, err := q.db.QueryContext(ctx, listRolesNoLimit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Roles{}
+	for rows.Next() {
+		var i Roles
+		if err := rows.Scan(&i.ID, &i.RoleName); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateRoles = `-- name: UpdateRoles :one
 UPDATE roles
   set role_name = $2

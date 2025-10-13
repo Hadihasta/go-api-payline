@@ -26,6 +26,7 @@ func NewServer(system *db.Queries) *Server {
 	api.POST("/role",server.createRoles)
 	api.GET("/role/:id",server.GetRoles)
 	api.GET("/role",server.ListRoles)
+	api.GET("/roles",server.ListRolesNoLimit)
 	// users
 	api.POST("/users",server.createUser)
 	api.GET("/users",server.ListUsers)

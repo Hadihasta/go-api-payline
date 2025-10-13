@@ -28,3 +28,8 @@ RETURNING id, role_name;
 -- name: DeleteRoles :exec
 DELETE FROM roles
 WHERE id = $1;
+
+
+-- name: ListRolesNoLimit :many
+SELECT * FROM roles
+ORDER BY id;

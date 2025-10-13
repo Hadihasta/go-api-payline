@@ -58,6 +58,18 @@ func (server *Server) GetRoles(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, role)
 }
 
+
+func (server *Server) ListRolesNoLimit(ctx *gin.Context) { 
+
+	role, err := server.system.ListRolesNoLimit(ctx)
+	if err != nil {
+
+		ctx.JSON(http.StatusInternalServerError, errorResponse((err)))
+		return
+	}
+		ctx.JSON(http.StatusOK, role)
+}
+
 type listRoleRequest struct {
 	// samakan tipe data dengan yang di generate oleh sqlc di role.sql.go
 	PageID   int32 `form:"page_id" binding:"required,min=1"`
@@ -76,6 +88,7 @@ func (server *Server) ListRoles(ctx *gin.Context) {
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
+		
 
 	role, err := server.system.ListRoles(ctx, arg)
 	if err != nil {
