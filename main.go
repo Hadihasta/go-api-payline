@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot connect to db ", err)
 	}
+	
 
 	queries := db.New(conn)
 	server := api.NewServer(queries)

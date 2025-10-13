@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	db "github.com/go-api-payline/db/sqlc"
 )
@@ -16,6 +17,8 @@ func NewServer(system *db.Queries) *Server {
 	server := &Server{system: system}
 	// using gin default middleware 
 	router := gin.Default()
+	// allow all origins
+	router.Use(cors.Default())
 
 
 	// roles
